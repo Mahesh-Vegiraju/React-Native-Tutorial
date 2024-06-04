@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "aura-tutorial",
-    "slug": "aura-tutorial",
+    "name": "Aora",
+    "slug": "aora",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "aora",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
@@ -13,7 +13,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "package": "com.productivityhobbist.aora"
     },
     "android": {
       "adaptiveIcon": {
