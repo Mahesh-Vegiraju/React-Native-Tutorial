@@ -6,7 +6,7 @@ import { title } from 'process'
 import { Video, ResizeMode } from 'expo-av'
 import { icons } from '@/constants'
 import CustomButton from '@/components/customButton'
-import * as DocumentPicker from 'expo-document-picker'
+import * as ImagePicker from 'expo-image-picker'
 import { createVideo } from '@/lib/appwrite'
 import { router } from 'expo-router'
 import { useGlobalContext } from '@/context/GlobalProvider'
@@ -22,8 +22,10 @@ const Create = () => {
   })
 
   const openPicker = async (selectType:string) => {
-    const result = await DocumentPicker.getDocumentAsync({
-      type: selectType === 'video' ? ['video/mp4', 'video/gif'] : ['image/png', 'image/jpeg', 'image/jpg'],
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: selectType === 'video' ? ImagePicker.MediaTypeOptions.Videos : ImagePicker.MediaTypeOptions.Images,
+      aspect: [4, 3],
+      quality: 1,
     })
 
     if (!result.canceled) {

@@ -104,7 +104,8 @@ export const getAllPosts = async () => {
   try {
     const posts = await databases.listDocuments(
       databaseId,
-      videoCollectionId
+      videoCollectionId,
+      [Query.orderDesc('$createdAt')]
     )
 
     return posts.documents;
@@ -146,7 +147,7 @@ export const getUserPosts = async (userId:any) => {
     const posts = await databases.listDocuments(
       databaseId,
       videoCollectionId,
-      [Query.equal('creator', userId)]
+      [Query.equal('creator', userId), Query.orderDesc('$createdAt')]
     )
 
     return posts.documents;
@@ -188,8 +189,14 @@ export const getFilePreview = async (fileId:any, type:string) => {
 export const uploadFile = async (file:any, type:string) => {
   if (!file) return;
 
-  const { mimeType, ...rest } = file;
-  const asset = { type: mimeType, ...rest };
+  const asset = {
+    name: file.fileName,
+    type: file.mimeType,
+    size: file.fileSize,
+    uri: file.uri,
+   };
+
+  console.log(file);
 
   try {
     const uploadedFile = await storage.createFile(storageId, ID.unique(), asset);
@@ -206,8 +213,8 @@ export const uploadFile = async (file:any, type:string) => {
 export const createVideo = async (form:any) => {
   try {
     const [thumbnailUrl, videoUrl] = await Promise.all([
-      uploadFile(form.thumbail, 'thumbnail'),
-      uploadFile(form.video, 'video')
+      uploadFile(form.thumbnail, 'image'),
+      uploadFile(form.video, 'video'),
     ])
 
     const newPost = await databases.createDocument(
